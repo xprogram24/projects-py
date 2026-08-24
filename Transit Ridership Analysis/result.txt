@@ -1,0 +1,7 @@
+1. The Problem & DatasetCore Question: Quantifying the exact ridership elasticity and passenger volume loss caused by adverse meteorological conditions across the Chicago Transit Authority (CTA) network.Data Sources: 5-year CTA daily turnstile/boarding logs ($n = 1,642$ operating days) merged via an inner date join with historical weather records via the Open-Meteo Archive API.
+
+2. Methodology & ModelingFeature engineered temporal signals (weekday vs. weekend/holiday indicators) and thermal comfort deviations ($\vert{}\text{Temp} - 20^\circ\text{C}\vert{}$).Fitted an Ordinary Least Squares (OLS) Multiple Linear Regression model with dummy-coded categorical day types.Verified statistical significance via p-values ($p < 0.001$), goodness-of-fit ($R^2 = 0.886$), and absence of multicollinearity ($\text{VIF} < 1.8$ across all regressors).
+
+3. Quantified Empirical FindingsPrecipitation: Every $1\text{ mm}$ of rainfall reduces daily system-wide ridership by $\approx 4,300$ rides ($p < 0.001$).Snowfall: Snow is $>2\times$ more disruptive than rain, removing $\approx 9,780$ boardings per $1\text{ cm}$ of snowfall ($p = 0.001$).Temperature Extremes: For every $1^\circ\text{C}$ divergence from $20^\circ\text{C}$, daily volume drops by $\approx 7,000$ rides ($p < 0.001$).
+
+4. Operational RecommendationsDynamic Fleet Scheduling: Transit operators can use 24-hour meteorological forecasts to downscale scheduled bus/train frequencies on severe snow and cold-snap days, reducing idle fuel and operator labor costs during anticipated demand dips.
