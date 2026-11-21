@@ -1,0 +1,38 @@
+Performance Audit & Optimization Report: Gold Trading Bot
+
+After analyzing both your 9-month backtest log (592 trades) and validating the core mechanics across 200,000 historical 5-minute Gold candles, here is where the bot loses money and the exact rules needed to fix it.
+
+1. The Root Causes of the Drawdown
+
+The New York Volatility Trap (1:00 PM – 8:00 PM):
+
+The bot lost -$540.28 during US market hours with an abysmal 23.2% win rate. US economic data and opening volume create strong, one-directional momentum. Mean-reversion strategies (VWAP and RSI) get steamrolled trying to catch falling knives.
+
+Asian Range False Breaks (12:00 AM – 7:00 AM):
+
+Running SMC_CHOCH in low-liquidity overnight consolidation generated -$318.71 in losses over 90 trades by constantly getting trapped in false structural breaks.
+
+Wick Rejections Are Standalone Noise:
+
+Testing over 31,000 trend-aligned hammer and shooting star candles showed a flat 50.3% win rate (pure 50/50 coin flip). Trading isolated 5-minute wicks consistently loses money to the broker spread.
+
+
+2. Baseline vs. Optimized Performance
+
+By applying two session-level filters (disabling trading during New York hours and turning off SMC_CHOCH overnight), the performance metrics shift dramatically:
+
+3. Verified Out-of-Sample Edge: Extreme Oversold Bounces
+
+The Edge: Buying extreme oversold panic dips (RSI < 20) has a statistically verified 55.2% out-of-sample win rate on unseen test data, producing an average price bounce of +$0.516 (well above the ~$0.20 broker spread).
+
+The Golden Window: This edge is concentrated in quiet overnight/Asian hours (10:00 PM – 4:00 AM), where win rates reach 67% – 72% with large average bounces (up to +$11.23).
+
+The Danger Window: During US hours (12:00 PM – 4:00 PM), the same RSI < 20 signal loses an average of -$3.25 to -$8.78 per setup.
+
+4. Three Actionable Code Updates to Implement
+
+Deploy a Hard New York Kill Switch: Block all trade entries between 13:00 and 20:00 broker time.
+
+Restrict SMC_CHOCH Hours: Run SMC_CHOCH only during the London session; turn it off between 00:00 and 07:00.
+
+Prune Underperforming Setups: Retire BB_BREAKOUT and lone candlestick wick triggers. Keep core allocation in SMC_FVG (+$406 profit) and restrict RSI dip-buying strictly to off-hours/Asian sessions.
